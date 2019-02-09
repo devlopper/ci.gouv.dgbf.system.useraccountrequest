@@ -1,0 +1,2 @@
+docker tag useraccountrequest-server DESTINATION_HOST/useraccountrequest-server
+docker push DESTINATION_HOST/useraccountrequest-server
