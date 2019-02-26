@@ -32,6 +32,8 @@ public class UserAccountRequest extends AbstractEntity implements Serializable {
 	@Transient private Strings services;
 	@Transient private Persons persons;
 	
+	@Transient private Boolean isNotify = Boolean.TRUE;
+	
 	@Override
 	public UserAccountRequest setCode(String code) {
 		return (UserAccountRequest) super.setCode(code);

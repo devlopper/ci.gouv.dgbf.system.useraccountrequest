@@ -1,6 +1,7 @@
 package ci.gouv.dgbf.system.useraccountrequest.client.controller.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -77,6 +78,25 @@ public class UserAccountRequestImpl extends AbstractDataImpl implements UserAcco
 	}
 	
 	@Override
+	public Collection<Role> getRoles(Boolean injectIfNull) {
+		if(roles == null && Boolean.TRUE.equals(injectIfNull))
+			roles = new ArrayList<>();
+		return roles;
+	}
+	
+	@Override
+	public UserAccountRequest addRoles(Collection<Role> roles) {
+		getRoles(Boolean.TRUE).addAll(roles);
+		return this;
+	}
+	
+	@Override
+	public UserAccountRequest addRoles(Role... roles) {
+		getRoles(Boolean.TRUE).addAll(__inject__(CollectionHelper.class).instanciate(roles));
+		return this;
+	}
+	
+	@Override
 	public Collection<Service> getServices() {
 		return services;
 	}
@@ -84,6 +104,25 @@ public class UserAccountRequestImpl extends AbstractDataImpl implements UserAcco
 	@Override
 	public UserAccountRequest setServices(Collection<Service> services) {
 		this.services = services;
+		return this;
+	}
+	
+	@Override
+	public Collection<Service> getServices(Boolean injectIfNull) {
+		if(services == null && Boolean.TRUE.equals(injectIfNull))
+			services = new ArrayList<>();
+		return services;
+	}
+	
+	@Override
+	public UserAccountRequest addServices(Collection<Service> services) {
+		getServices(Boolean.TRUE).addAll(services);
+		return this;
+	}
+	
+	@Override
+	public UserAccountRequest addServices(Service... services) {
+		getServices(Boolean.TRUE).addAll(__inject__(CollectionHelper.class).instanciate(services));
 		return this;
 	}
 	

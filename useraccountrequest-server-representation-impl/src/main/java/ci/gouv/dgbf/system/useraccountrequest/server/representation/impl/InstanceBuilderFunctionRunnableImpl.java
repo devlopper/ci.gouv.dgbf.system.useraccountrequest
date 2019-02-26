@@ -33,10 +33,11 @@ public class InstanceBuilderFunctionRunnableImpl extends AbstractInstanceBuilder
 			UserAccountRequest persistence = (UserAccountRequest) destination;
 			persistence.setCode(representation.getCode());
 			persistence.setLetter(representation.getLetter());
+			persistence.setIsNotify(representation.getIsNotify());
 			
-			if(__inject__(CollectionHelper.class).isNotEmpty(representation.getRoles())) {
+			if(representation.getRoles()!=null && __inject__(CollectionHelper.class).isNotEmpty(representation.getRoles().getCollection())) {
 				persistence.setRoles(null);
-				for(String index : representation.getRoles()) {
+				for(String index : representation.getRoles().getCollection()) {
 					if(__inject__(StringHelper.class).isNotBlank(index))
 						persistence.getRoles(Boolean.TRUE).add(index);
 				}
@@ -54,11 +55,10 @@ public class InstanceBuilderFunctionRunnableImpl extends AbstractInstanceBuilder
 				}
 			}
 			
-			if(__inject__(CollectionHelper.class).isNotEmpty(representation.getServices())) {
+			if(representation.getServices()!=null && __inject__(CollectionHelper.class).isNotEmpty(representation.getServices().getCollection())) {
 				persistence.setServices(null);
-				for(String index : representation.getServices()) {
+				for(String index : representation.getServices().getCollection())
 					persistence.getServices(Boolean.TRUE).add(index);	
-				}
 			}
 		}else if(source instanceof UserAccountRequest && destination instanceof UserAccountRequestDto) {
 			UserAccountRequest persistence = (UserAccountRequest) source;
@@ -70,10 +70,8 @@ public class InstanceBuilderFunctionRunnableImpl extends AbstractInstanceBuilder
 			
 			Collection<UserAccountRequestRole> userAccountRequestRoles = __inject__(UserAccountRequestRolePersistence.class).readByUserAccountRequest(persistence);
 			if(__inject__(CollectionHelper.class).isNotEmpty(userAccountRequestRoles)) {
-				representation.setRoles(new ArrayList<>());
-				for(UserAccountRequestRole index : userAccountRequestRoles) {
-					representation.getRoles().add(index.getRole());
-				}
+				for(UserAccountRequestRole index : userAccountRequestRoles)
+					representation.addRoles(index.getRole());
 			}
 			
 			Collection<UserAccountRequestPerson> userAccountRequestPersons = __inject__(UserAccountRequestPersonPersistence.class).readByUserAccountRequest(persistence);
@@ -89,9 +87,8 @@ public class InstanceBuilderFunctionRunnableImpl extends AbstractInstanceBuilder
 			
 			Collection<UserAccountRequestService> userAccountRequestServices = __inject__(UserAccountRequestServicePersistence.class).readByUserAccountRequest(persistence);
 			if(__inject__(CollectionHelper.class).isNotEmpty(userAccountRequestServices)) {
-				representation.setServices(new ArrayList<>());
 				for(UserAccountRequestService index : userAccountRequestServices)
-					representation.getServices().add(index.getService());
+					representation.addServices(index.getService());
 			}
 		}else
 			super.__copy__(source, destination);

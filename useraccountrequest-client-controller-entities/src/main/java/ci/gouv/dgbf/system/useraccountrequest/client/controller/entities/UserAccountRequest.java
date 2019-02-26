@@ -28,10 +28,16 @@ public interface UserAccountRequest extends Data {
 	UserAccountRequest setNumberOfPerson(Integer numberOfPerson);
 	
 	Collection<Role> getRoles();
+	Collection<Role> getRoles(Boolean injectIfNull);
 	UserAccountRequest setRoles(Collection<Role> roles);
+	UserAccountRequest addRoles(Collection<Role> roles);
+	UserAccountRequest addRoles(Role...roles);
 	
 	Collection<Service> getServices();
+	Collection<Service> getServices(Boolean injectIfNull);
 	UserAccountRequest setServices(Collection<Service> services);
+	UserAccountRequest addServices(Collection<Service> roles);
+	UserAccountRequest addServices(Service...services);
 	
 	String getComments();
 	UserAccountRequest setComments(String comments);

@@ -17,8 +17,9 @@ public class UserAccountRequestFunctionIntegrationTest extends AbstractBusinessA
 		UserAccountRequest userAccountRequest = new UserAccountRequest();
 		userAccountRequest.addRoles("R01","R04");
 		userAccountRequest.addServices("EL","EX");
-		userAccountRequest.addPersons(new Person().setCode("P01"));
-		__inject__(TestBusinessCreate.class).addObjects(userAccountRequest).execute();
+		userAccountRequest.addPersons(new Person().setCode("P01").setElectronicMailAddress("kycdev@gmail.com"));
+		userAccountRequest.setIsNotify(Boolean.FALSE);
+		__inject__(TestBusinessCreate.class).addObjects(userAccountRequest).setIsCatchThrowable(Boolean.TRUE).execute();
 	}
 	
 

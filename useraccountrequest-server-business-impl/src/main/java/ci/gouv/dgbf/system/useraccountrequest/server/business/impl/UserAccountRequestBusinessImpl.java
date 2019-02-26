@@ -14,6 +14,7 @@ import org.cyk.utility.server.business.AbstractBusinessEntityImpl;
 import org.cyk.utility.server.business.BusinessServiceProvider;
 import org.cyk.utility.string.StringHelper;
 import org.cyk.utility.string.Strings;
+import org.cyk.utility.throwable.ThrowableHelper;
 
 import ci.gouv.dgbf.system.useraccountrequest.server.business.api.UserAccountRequestBusiness;
 import ci.gouv.dgbf.system.useraccountrequest.server.business.api.UserAccountRequestPersonBusiness;
@@ -45,6 +46,17 @@ public class UserAccountRequestBusinessImpl extends AbstractBusinessEntityImpl<U
 			userAccountRequest.setCode(__inject__(RandomHelper.class).getAlphanumeric(3));
 		userAccountRequest.setCreationDate(new Date());
 		super.create(userAccountRequest, properties);
+		Persons persons = userAccountRequest.getPersons();
+		if(__injectCollectionHelper__().isEmpty(persons))
+			__inject__(ThrowableHelper.class).throwRuntimeException("une personne est obligatoire.");
+		
+		if(__injectCollectionHelper__().isNotEmpty(persons)) {
+			for(Person index : persons.get())
+				if(index!=null) {
+					if(__inject__(StringHelper.class).isBlank(index.getElectronicMailAddress()))
+						__inject__(ThrowableHelper.class).throwRuntimeException("une addresse de courriel électronique est obligatoire.");
+				}
+		}
 		
 		Strings roles = userAccountRequest.getRoles();
 		if(__injectCollectionHelper__().isNotEmpty(roles)) {
@@ -64,7 +76,7 @@ public class UserAccountRequestBusinessImpl extends AbstractBusinessEntityImpl<U
 			__inject__(UserAccountRequestServiceBusiness.class).createMany(userAccountRequestServices);
 		}
 		
-		Persons persons = userAccountRequest.getPersons();
+		
 		if(__injectCollectionHelper__().isNotEmpty(persons)) {
 			Collection<UserAccountRequestPerson> userAccountRequestPersons = new ArrayList<>();
 			for(Person index : persons.get())
@@ -77,7 +89,8 @@ public class UserAccountRequestBusinessImpl extends AbstractBusinessEntityImpl<U
 			__inject__(UserAccountRequestPersonBusiness.class).createMany(userAccountRequestPersons);
 			
 			//Notification
-			__sendMail__("SIB - Demande de compte utilisateur", persons.getAt(0).getFirstName()
+			if(Boolean.TRUE.equals(userAccountRequest.getIsNotify()))
+				__sendMail__("SIB - Demande de compte utilisateur", persons.getAt(0).getFirstName()
 					+" "+persons.getAt(0).getLastNames()
 					+" , votre demande de compte utilisateur a été enregistrée avec succès. Le code de cette demande est "+userAccountRequest.getCode()
 					, Arrays.asList(persons.getAt(0).getElectronicMailAddress()), Boolean.FALSE);

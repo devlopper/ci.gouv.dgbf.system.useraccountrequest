@@ -7,6 +7,7 @@ import java.util.Collection;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.cyk.utility.__kernel__.object.__static__.representation.Strings;
 import org.cyk.utility.collection.CollectionHelper;
 import org.cyk.utility.server.representation.AbstractEntityFromPersistenceEntity;
 
@@ -21,21 +22,21 @@ public class UserAccountRequestDto extends AbstractEntityFromPersistenceEntity i
 
 	private String letter;
 	private String creationDate;
-	private Collection<String> roles;
-	private Collection<String> services;
+	private Strings roles;
+	private Strings services;
 	private Collection<PersonDto> persons;
+	private Boolean isNotify = Boolean.TRUE;
 	
 	@XmlElement(name="roles")
-	public Collection<String> getRoles(){
+	public Strings getRoles(){
 		return roles;
 	}
 	
 	public UserAccountRequestDto addRoles(Collection<String> codes) {
 		if(__inject__(CollectionHelper.class).isNotEmpty(codes)) {
-			if(roles == null)
-				roles = new ArrayList<>();
-			for(String index : codes)
-				roles.add(index);
+			if(this.roles == null)
+				this.roles = new Strings();
+			this.roles.add(codes);
 		}
 		return this;
 	}
@@ -49,24 +50,23 @@ public class UserAccountRequestDto extends AbstractEntityFromPersistenceEntity i
 		return persons;
 	}
 	
-	public UserAccountRequestDto addPerson(String firstName,String lastNames) {
+	public UserAccountRequestDto addPerson(String firstName,String lastNames,String electronicMailAddress) {
 		if(persons == null)
 			persons = new ArrayList<>();
-		persons.add(new PersonDto().setFirstName(firstName).setLastNames(lastNames));
+		persons.add(new PersonDto().setFirstName(firstName).setLastNames(lastNames).setElectronicMailAddress(electronicMailAddress));
 		return this;
 	}
 	
 	@XmlElement(name="services")
-	public Collection<String> getServices(){
+	public Strings getServices(){
 		return services;
 	}
 	
 	public UserAccountRequestDto addServices(Collection<String> codes) {
 		if(__inject__(CollectionHelper.class).isNotEmpty(codes)) {
-			if(services == null)
-				services = new ArrayList<>();
-			for(String index : codes)
-				services.add(index);
+			if(this.services == null)
+				this.services = new Strings();
+			this.services.add(codes);
 		}
 		return this;
 	}

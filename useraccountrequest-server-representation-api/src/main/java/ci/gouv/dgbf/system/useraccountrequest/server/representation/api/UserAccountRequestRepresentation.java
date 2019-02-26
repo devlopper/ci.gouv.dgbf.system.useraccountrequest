@@ -11,6 +11,6 @@ import ci.gouv.dgbf.system.useraccountrequest.server.representation.entities.Use
 @Path(UserAccountRequestRepresentation.PATH)
 public interface UserAccountRequestRepresentation extends RepresentationEntity<UserAccountRequest,UserAccountRequestDto,UserAccountRequestDtoCollection> {
 	
-	String PATH = "/user/account/request";
+	String PATH = "/useraccountrequest";
 	
 }
