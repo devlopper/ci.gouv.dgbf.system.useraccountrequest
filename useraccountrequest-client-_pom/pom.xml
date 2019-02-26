@@ -27,8 +27,9 @@
 		<module>../useraccountrequest-client-controller-impl</module>
 		
 		<!-- Deployment -->
+		<!--
 		<module>../useraccountrequest-client-deployment</module>
-				
+		-->		
 	</modules>
 
 	<repositories>

@@ -13,7 +13,7 @@ public class PersonBusinessImpl extends AbstractBusinessEntityImpl<Person, Perso
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected Class<Person> __getEntityClass__() {
+	protected Class<Person> __getPersistenceEntityClass__() {
 		return Person.class;
 	}
 	

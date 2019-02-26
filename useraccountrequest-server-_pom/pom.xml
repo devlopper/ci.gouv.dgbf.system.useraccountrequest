@@ -40,7 +40,9 @@
 		<module>../useraccountrequest-server-representation-impl</module>
 		
 		<!-- Deployment -->
+		<!--
 		<module>../useraccountrequest-server-deployment</module>
+		-->
 	</modules>
 	
 	<repositories>

@@ -8,12 +8,23 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		
-		<!-- xxx -->
-		<!--navigation-case>
-			<from-outcome>xxxView</from-outcome>
-			<to-view-id></to-view-id>
+		<navigation-case>
+			<from-outcome>userAccountRequestCreateByNotConnectedUserView</from-outcome>
+			<to-view-id>/public/user/account/request/create.jsf</to-view-id>
 			<redirect />
-		</navigation-case-->
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>userAccountRequestFindByNotConnectedUserView</from-outcome>
+			<to-view-id>/public/user/account/request/find.jsf</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>userAccountRequestReadByNotConnectedUserView</from-outcome>
+			<to-view-id>/public/user/account/request/read.jsf</to-view-id>
+			<redirect />
+		</navigation-case>
 		
 	</navigation-rule>
 

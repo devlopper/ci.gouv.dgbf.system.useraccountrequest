@@ -2,15 +2,11 @@ package ci.gouv.dgbf.system.useraccountrequest.server.business.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
 import javax.inject.Singleton;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.cyk.utility.__kernel__.properties.Properties;
 import org.cyk.utility.random.RandomHelper;
@@ -39,7 +35,7 @@ public class UserAccountRequestBusinessImpl extends AbstractBusinessEntityImpl<U
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected Class<UserAccountRequest> __getEntityClass__() {
+	protected Class<UserAccountRequest> __getPersistenceEntityClass__() {
 		return UserAccountRequest.class;
 	}
 	
@@ -79,13 +75,12 @@ public class UserAccountRequestBusinessImpl extends AbstractBusinessEntityImpl<U
 					userAccountRequestPersons.add(userAccountRequestPerson);
 				}
 			__inject__(UserAccountRequestPersonBusiness.class).createMany(userAccountRequestPersons);
-		}
-		
-		try {
-			sendMail(userAccountRequest, persons);
-		}catch(Exception exception) {
-			exception.printStackTrace();
-			//throw new RuntimeException(exception); MAIL ERROR SHOULD NOT BLOCK
+			
+			//Notification
+			__sendMail__("SIB - Demande de compte utilisateur", persons.getAt(0).getFirstName()
+					+" "+persons.getAt(0).getLastNames()
+					+" , votre demande de compte utilisateur a été enregistrée avec succès. Le code de cette demande est "+userAccountRequest.getCode()
+					, Arrays.asList(persons.getAt(0).getElectronicMailAddress()), Boolean.FALSE);
 		}
 		
 		return this;
@@ -104,38 +99,4 @@ public class UserAccountRequestBusinessImpl extends AbstractBusinessEntityImpl<U
 		return super.delete(userAccountRequest, properties);
 	}
 	
-	private void sendMail(UserAccountRequest userAccountRequest,Persons persons) throws Exception {
-		String emailPort = "587";//gmail's smtp port
-
-		java.util.Properties emailProperties = System.getProperties();
-		emailProperties.put("mail.smtp.port", emailPort);
-		emailProperties.put("mail.smtp.auth", "true");
-		emailProperties.put("mail.smtp.starttls.enable", "true");
-		
-		String[] toEmails = { persons.getAt(0).getElectronicMailAddress() };
-		String emailSubject = "SIB - Demande de compte utilisateur";
-		String emailBody = userAccountRequest.getPersons().getAt(0).getFirstName()+" "+userAccountRequest.getPersons().getAt(0).getLastNames()
-				+" , votre demande de compte utilisateur a été enregistrée avec succès. Le code de cette demande est "+userAccountRequest.getCode();
-
-		Session mailSession = Session.getDefaultInstance(emailProperties, null);
-		MimeMessage emailMessage = new MimeMessage(mailSession);
-
-		for (int i = 0; i < toEmails.length; i++) {
-			emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmails[i]));
-		}
-
-		emailMessage.setSubject(emailSubject);
-		emailMessage.setContent(emailBody, "text/html");//for a html email
-		//emailMessage.setText(emailBody);// for a text email
-		
-		String emailHost = "smtp.gmail.com";
-		String fromUser = "dgbfdtideveloppers";//just the id alone without @gmail.com
-		String fromUserEmailPassword = "dgbf2016dti";
-
-		Transport transport = mailSession.getTransport("smtp");
-
-		transport.connect(emailHost, fromUser, fromUserEmailPassword);
-		transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
-		transport.close();
-	}
 }

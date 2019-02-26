@@ -17,7 +17,7 @@ public class UserAccountRequestRoleBusinessImpl extends AbstractBusinessEntityIm
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected Class<UserAccountRequestRole> __getEntityClass__() {
+	protected Class<UserAccountRequestRole> __getPersistenceEntityClass__() {
 		return UserAccountRequestRole.class;
 	}
 
