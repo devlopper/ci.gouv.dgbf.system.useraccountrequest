@@ -21,9 +21,9 @@ import org.cyk.utility.system.action.SystemActionRedirect;
 import ci.gouv.dgbf.system.useraccountrequest.client.controller.entities.Person;
 import ci.gouv.dgbf.system.useraccountrequest.client.controller.entities.PersonReadRow;
 import ci.gouv.dgbf.system.useraccountrequest.client.controller.entities.UserAccountRequest;
-import ci.gouv.dgbf.system.useraccountrequest.client.controller.entities.UserAccountRequestCreateWindowBuilder;
+import ci.gouv.dgbf.system.useraccountrequest.client.controller.entities.UserAccountRequestToDelCreateWindowBuilder;
 
-public class UserAccountRequestCreateWindowBuilderImpl extends AbstractWindowContainerManagedWindowBuilderEditDataImpl implements UserAccountRequestCreateWindowBuilder, Serializable {
+public class UserAccountRequestCreateWindowBuilderImpl extends AbstractWindowContainerManagedWindowBuilderEditDataImpl implements UserAccountRequestToDelCreateWindowBuilder, Serializable {
 	private static final long serialVersionUID = 1L;
 		
 	@Override

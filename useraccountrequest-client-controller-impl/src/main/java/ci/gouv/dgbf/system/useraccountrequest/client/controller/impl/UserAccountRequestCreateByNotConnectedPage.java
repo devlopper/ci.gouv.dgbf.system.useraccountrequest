@@ -19,6 +19,7 @@ import org.cyk.utility.client.controller.web.jsf.primefaces.AbstractPageContaine
 import org.cyk.utility.system.action.SystemAction;
 import org.cyk.utility.system.action.SystemActionCreate;
 
+import ci.gouv.dgbf.system.useraccountrequest.client.controller.entities.Person;
 import ci.gouv.dgbf.system.useraccountrequest.client.controller.entities.UserAccountRequest;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,8 +30,10 @@ public class UserAccountRequestCreateByNotConnectedPage extends AbstractPageCont
 	
 	@Override
 	protected WindowContainerManagedWindowBuilder __getWindowContainerManagedWindowBuilder__() {
+		UserAccountRequest userAccountRequest = __inject__(UserAccountRequest.class);
+		userAccountRequest.addPersons(__inject__(Person.class));
 		SystemAction systemAction = __inject__(SystemActionCreate.class);
-		systemAction.setEntityClass(UserAccountRequest.class);
+		systemAction.setEntityClass(UserAccountRequest.class).getEntities(Boolean.TRUE).add(userAccountRequest);
 		WindowContainerManagedWindowBuilder windowContainerManagedWindowBuilder = __inject__(WindowContainerManagedWindowBuilderGetter.class)
 				.setSystemAction(systemAction).execute().getOutput();
 		windowContainerManagedWindowBuilder.getWindow(Boolean.TRUE).setTitleValue("Demande de compte utilisateur");
