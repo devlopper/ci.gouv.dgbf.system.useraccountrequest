@@ -2,19 +2,12 @@ package ci.gouv.dgbf.system.useraccountrequest.client.controller.impl;
 
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.cyk.utility.client.controller.component.command.CommandableBuilder;
 import org.cyk.utility.client.controller.component.layout.Proportions;
-import org.cyk.utility.client.controller.component.window.WindowBuilder;
 import org.cyk.utility.client.controller.component.window.WindowContainerManagedWindowBuilder;
 import org.cyk.utility.client.controller.component.window.WindowContainerManagedWindowBuilderGetter;
-import org.cyk.utility.client.controller.event.EventBuilder;
-import org.cyk.utility.client.controller.event.EventName;
-import org.cyk.utility.client.controller.navigation.NavigationIdentifierToUrlStringMapper;
 import org.cyk.utility.client.controller.web.jsf.primefaces.AbstractPageContainerManagedImpl;
 import org.cyk.utility.system.action.SystemAction;
 import org.cyk.utility.system.action.SystemActionCreate;
@@ -42,7 +35,7 @@ public class UserAccountRequestCreateByNotConnectedPage extends AbstractPageCont
 		proportions.set(0,3,1,6,2,3);
 		return windowContainerManagedWindowBuilder;
 	}
-	
+	/*
 	@Override
 	protected WindowBuilder __getWindowBuilder__() {
 		WindowBuilder window =  super.__getWindowBuilder__();
@@ -57,5 +50,5 @@ public class UserAccountRequestCreateByNotConnectedPage extends AbstractPageCont
 	public Boolean isMessageMaximumSeverityInfo() {
 		return FacesMessage.SEVERITY_INFO.equals(FacesContext.getCurrentInstance().getMaximumSeverity());
 	}
-	
+	*/
 }
